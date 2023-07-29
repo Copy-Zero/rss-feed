@@ -1,10 +1,16 @@
 require 'rss'
 require 'open-uri'
+require 'date'
+
+def format_post_date(date)
+  # date = DateTime.parse(rss_date)
+  "#{date.day}-#{Date::MONTHNAMES[date.month]}-#{date.year}"
+end
 
 def get_main_episodes(episodes)
   main_episodes = []
   episodes.each do |episode|
-    main_episodes << [episode.title, episode.pubDate] if episode.title.include? 'Episode'
+    main_episodes << [episode.title, format_post_date(episode.pubDate)] if episode.title.include? 'Episode'
   end
   main_episodes
 end
@@ -44,3 +50,4 @@ URI.open(lpotl_url) do |rss|
   # puts "Item: #{item.title}"
   # end
 end
+
